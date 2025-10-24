@@ -59,7 +59,6 @@ The template file should contain **only** the ORCA keywords and simple-input lin
 
 ```
 ! B3LYP D3BJ def2-SVP Opt
-
 ```
 
 *Note: The script also adds its own `%MaxCore` line. The value from the environment variable (`$orca_xyz2inp_maxcore`) will be written *before* the template, so the value inside the template will take precedence if present.*
