@@ -1,0 +1,6 @@
+! r2SCAN-3c
+! TightOpt Freq
+
+%geom
+  MaxIter 512
+end
