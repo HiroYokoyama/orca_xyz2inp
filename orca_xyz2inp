@@ -39,7 +39,6 @@ fi
 while getopts hfc:m: OPT
 do
   case $OPT in
-    # --- 変更箇所 3: 一時変数に格納 ---
     c ) 
         charge_opt="$OPTARG"      
         ;;
