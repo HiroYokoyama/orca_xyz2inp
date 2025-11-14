@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# Generate input file from xyz by hy (2025/06/08)
+# Generate input file from xyz by hy (2025/11/14)
 # 書式：orca_xyz2inp XYZ-File TEMPLATE-File "suffix, INPUTファイルの後につける文字（例:-freq）"
 # TEMPALTE File: Just header without last structure block
 
@@ -21,11 +21,9 @@ m: multiplicity (default is 1, or from XYZ comment line).
 #初期値
 nprocs=1
 maxcore=1000
-# --- 変更箇所 1: デフォルト値の変数名変更 ---
 charge_default=0
 multiplicity_default=1
 force="false"
-# --- 変更箇所 2: オプション用の一時変数を追加 ---
 charge_opt=""
 multiplicity_opt=""
 
