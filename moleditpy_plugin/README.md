@@ -11,7 +11,7 @@ This is a plugin for MoleditPy that allows you to generate input files (`.inp`) 
 
 ## Installation
 
-1.  Place the `orca_xyz2inp_gui.py` file into your MoleditPy plugins directory (e.g., `plugins/` or `modules/`, depending on your installation).
+1.  Place the `orca_xyz2inp_gui.py` file into your MoleditPy plugins directory.
 2.  Restart MoleditPy or reload the plugins to activate it.
 
 ## Usage
@@ -68,3 +68,4 @@ You can set the following environment variables to change the default values use
   * Python 3.x
   * PyQt6
   * RDKit
+
