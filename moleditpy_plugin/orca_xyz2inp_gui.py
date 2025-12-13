@@ -31,7 +31,12 @@ class OrcaInputDialog(QDialog):
         h_template = QHBoxLayout()
         h_template.addWidget(self.le_template)
         h_template.addWidget(self.btn_template)
+        h_template.addWidget(self.btn_template)
         form_layout.addRow("Template File:", h_template)
+
+        # 1.5. Filename Suffix
+        self.le_suffix = QLineEdit()
+        form_layout.addRow("Filename Suffix:", self.le_suffix)
 
         # 2. Parameters (Charge, Multiplicity)
         self.sb_charge = QSpinBox()
@@ -94,13 +99,21 @@ class OrcaInputDialog(QDialog):
             except ValueError:
                 pass
 
-        # 電荷の自動推測
+        # 電荷と多重度の自動推測
         if hasattr(self.main_window, 'current_mol') and self.main_window.current_mol:
             mol = self.main_window.current_mol
             try:
-                self.sb_charge.setValue(Chem.GetFormalCharge(mol))
-            except:
-                pass
+                # Charge
+                charge = Chem.GetFormalCharge(mol)
+                self.sb_charge.setValue(charge)
+                
+                # Multiplicity
+                # RDKit keeps track of radical electrons on atoms
+                num_radical_electrons = sum(atom.GetNumRadicalElectrons() for atom in mol.GetAtoms())
+                multiplicity = num_radical_electrons + 1
+                self.sb_mult.setValue(multiplicity)
+            except Exception as e:
+                print(f"Error estimating charge/multiplicity: {e}")
 
     def browse_template(self):
         # 拡張子フィルタを .tmplt 優先に変更
@@ -123,7 +136,15 @@ class OrcaInputDialog(QDialog):
             return
 
         # 2. 保存先ダイアログを表示 (Generateボタン押下時)
+        suffix = self.le_suffix.text().strip()
+        
         default_name = "orca_input.inp"
+        if hasattr(self.main_window, 'current_file_path') and self.main_window.current_file_path:
+             base_name = os.path.splitext(os.path.basename(self.main_window.current_file_path))[0]
+             default_name = f"{base_name}{suffix}.inp"
+        else:
+             default_name = f"orca_input{suffix}.inp"
+
         output_path, _ = QFileDialog.getSaveFileName(
             self, "Save ORCA Input File", default_name, "ORCA Input (*.inp)"
         )
