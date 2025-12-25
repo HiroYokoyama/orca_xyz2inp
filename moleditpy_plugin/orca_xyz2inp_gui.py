@@ -6,10 +6,10 @@ from rdkit import Chem
 
 import json
 
-__version__="2025.12.18"
+__version__="2025.12.25"
 __author__="HiroYokoyama"
 PLUGIN_NAME = "ORCA xyz2inp GUI"
-SETTINGS_JSON = os.path.join(os.path.dirname(__file__), "orca_xyz2inp_settings.json")
+SETTINGS_JSON = os.path.join(os.path.dirname(__file__), "orca_xyz2inp_gui.json")
 
 class OrcaInputDialog(QDialog):
     def __init__(self, main_window):
@@ -275,11 +275,12 @@ class OrcaInputDialog(QDialog):
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to generate file:\n{str(e)}")
 
-def run(main_window):
-    """Entry point for the plugin"""
-    if not hasattr(main_window, 'current_mol') or not main_window.current_mol:
-        QMessageBox.warning(main_window, PLUGIN_NAME, "No molecule loaded.")
+def run(mw):
+    if not hasattr(mw, 'current_mol') or not mw.current_mol:
+        QMessageBox.warning(mw, PLUGIN_NAME, "No molecule loaded.")
         return
 
-    dialog = OrcaInputDialog(main_window)
+    dialog = OrcaInputDialog(mw)
     dialog.exec()
+
+# initialize removed as it only registered the menu action
