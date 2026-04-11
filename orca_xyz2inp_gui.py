@@ -5,8 +5,9 @@ from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QFormLayout, QLineEdit,
 from rdkit import Chem
 
 import json
+import logging
 
-__version__="2026.04.01"
+__version__="2026.04.11"
 __author__="HiroYokoyama"
 PLUGIN_NAME = "ORCA xyz2inp GUI"
 SETTINGS_JSON = os.path.join(os.path.dirname(__file__), "orca_xyz2inp_gui.json")
@@ -121,12 +122,14 @@ class OrcaInputDialog(QDialog):
         if "orca_xyz2inp_nprocs" in os.environ:
             try:
                 defaults["nprocs"] = int(os.environ["orca_xyz2inp_nprocs"])
-            except ValueError: pass
+            except ValueError as _e:
+                logging.warning("[orca_xyz2inp_gui.py:124] silenced: %s", _e)
         
         if "orca_xyz2inp_maxcore" in os.environ:
             try:
                 defaults["maxcore"] = int(os.environ["orca_xyz2inp_maxcore"])
-            except ValueError: pass
+            except ValueError as _e:
+                logging.warning("[orca_xyz2inp_gui.py:129] silenced: %s", _e)
 
         # 3. Set UI
         self.sb_nprocs.setValue(int(defaults.get("nprocs", 1)))
